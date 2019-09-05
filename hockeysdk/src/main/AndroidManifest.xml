@@ -11,7 +11,6 @@
     <application>
 
         <activity android:name=".UpdateActivity" />
-        <activity android:name=".PaintActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ExpiryInfoActivity" />
 
