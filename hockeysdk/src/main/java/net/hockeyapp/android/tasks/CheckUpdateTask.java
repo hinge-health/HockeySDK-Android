@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import net.hockeyapp.android.BuildConfig;
 import net.hockeyapp.android.Constants;
-import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManagerListener;
 import net.hockeyapp.android.utils.HockeyLog;
 import net.hockeyapp.android.utils.Util;
@@ -68,7 +67,6 @@ public class CheckUpdateTask extends AsyncTask<Void, String, JSONArray> {
 
         if (ctx != null) {
             this.weakContext = new WeakReference<>(ctx.getApplicationContext());
-            this.usageTime = Tracking.getUsageTime(ctx);
             Constants.loadFromContext(ctx);
         }
     }
