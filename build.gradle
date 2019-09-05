@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
-        classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
 
@@ -23,88 +22,8 @@ allprojects {
     }
 }
 
-
-//The bintray-release plugin doesn't write the following attributes to the artifact's pom.xml:
-//Project name, project description,Project URL, License information,SCM URL and Developer information
-//These attributes are not required for publishing on bintray/jcenter but they are mandatory
-//for publishing on maven central.
-//the following ext{} defines variables that will be used in the hook defined for all subprojects
-//
-//The Hook
-//...will generate a new pom.xml after the generatePomFileForMavenPublication-task and BEFORE the
-// bintrayUpload-task. We can than sync from bintray to maven central using the bintray web-UI.
-//This is part of the readme at https://github.com/novoda/bintray-release
-
 ext {
-    ARTIFACT_ID = 'HockeySDK'
     VERSION_NAME = '5.2.0'
     VERSION_CODE = 21
-    SITE_URL = 'https://github.com/bitstadium/hockeysdk-android'
-    GIT_URL = 'https://github.com/bitstadium/HockeySDK-Android.git'
-    BINTRAY_USER = HOCKEYAPP_BINTRAY_USER
-    GROUP_NAME = 'net.hockeyapp.android'
     COMPILE_SDK = 28
-    IS_UPLOADING = project.getGradle().startParameter.taskNames.any{it.contains('bintrayUpload')}
-    DESCRIPTION = 'HockeySDK-Android implements support for using HockeyApp in your Android application. The following features are currently supported:\n' +
-            '\n' +
-            'Collect crash reports:If your app crashes, a crash log is written to the device\'s storage. If the user starts the app again, they will be asked asked to submit the crash report to HockeyApp. This works for both beta and live apps, i.e. those submitted to Google Play or other app stores. Crash logs contain viable information for you to help resolve the issue. Furthermore, you as a developer can add additional information to the report as well.\n' +
-            '\n' +
-            'Update Alpha/Beta apps: The app will check with HockeyApp if a new version for your alpha/beta build is available. If yes, it will show a dialog to users and let them see the release notes, the version history and start the installation process right away. You can even force the installation of certain updates.\n' +
-            '\n' +
-            'User Metrics: Understand user behavior to improve your app. Track usage through daily and monthly active users. Monitor crash impacted users. Measure customer engagement through session count. Add custom tracking calls to learn which features your users are actually using.  This feature requires a minimum API level of 14 (Android 4.x Ice Cream Sandwich).\n' +
-            '\n' +
-            'Feedback: Besides crash reports, collecting feedback from your users from within your app is a great option to help with improving your app. You act on and answer feedback directly from the HockeyApp backend.\n' +
-            '\n' +
-            'Authenticate: Identify and authenticate users against your registered testers with the HockeyApp backend.'
-}
-
-subprojects {
-    group = GROUP_NAME
-    version = VERSION_NAME
-
-    if (IS_UPLOADING && project.name in ['hockeysdk']) {
-        println project.name
-        apply plugin: 'maven'
-
-        gradle.taskGraph.whenReady { taskGraph ->
-            taskGraph.getAllTasks().find {
-                it.path == ":$project.name:generatePomFileForReleasePublication"
-            }.doLast {
-                file("build/publications/maven/pom-default.xml").delete()
-                file("build/publications/release/pom-default.xml").delete()
-                println 'Overriding pom-file to make sure we can sync to maven central!'
-                pom {
-                    //noinspection GroovyAssignabilityCheck
-                    project {
-                        name "$project.name"
-                        artifactId ARTIFACT_ID
-                        packaging project.name == 'compiler' ? 'jar' : 'aar'
-                        description DESCRIPTION
-                        url SITE_URL
-                        version VERSION_NAME
-
-                        scm {
-                            url GIT_URL
-                            connection GIT_URL
-                            developerConnection GIT_URL
-                        }
-
-                        licenses {
-                            license {
-                                name 'MIT'
-                            }
-                        }
-
-                        developers {
-                            developer {
-                                id 'HockeyApp'
-                                name 'Microsoft Corporation'
-                                email 'support@hockeyapp.net'
-                            }
-                        }
-                    }
-                }.writeTo("build/publications/maven/pom-default.xml").writeTo("build/publications/release/pom-default.xml")
-            }
-        }
-    }
 }
