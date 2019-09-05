@@ -29,16 +29,6 @@ public class PermissionsUtil {
         return true;
     }
 
-    public static String[] deniedPermissions(String[] permissions, int[] permissionsState) {
-        ArrayList<String> result = new ArrayList<>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (permissionsState[i] != PackageManager.PERMISSION_GRANTED) {
-                result.add(permissions[i]);
-            }
-        }
-        return result.toArray(new String[0]);
-    }
-
     /**
      * Checks if Unknown Sources is enabled
      */
