@@ -1,5 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <string name="hockeyapp_crash_dialog_app_name_fallback">This app</string>
+
     <!-- Download Failed -->
     <string name="hockeyapp_download_failed_dialog_title">Download Failed</string>
     <string name="hockeyapp_download_failed_dialog_message">The update could not be downloaded. Would you like to try again?</string>

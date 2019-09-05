@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="hockeyapp_crash_dialog_app_name_fallback">Esta aplicación</string>
+
     <!-- Download Failed -->
     <string name="hockeyapp_download_failed_dialog_title">Descarga fallida</string>
     <string name="hockeyapp_download_failed_dialog_message">No se pudo descargar la actualización. ¿Quieres volver a intentarlo?</string>
