@@ -1,26 +1,14 @@
 package net.hockeyapp.android.utils;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.provider.OpenableColumns;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
 
 import net.hockeyapp.android.R;
 
@@ -31,11 +19,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,9 +28,7 @@ public class Util {
     private static final String APP_IDENTIFIER_PATTERN = "[0-9a-f]+";
     private static final int APP_IDENTIFIER_LENGTH = 32;
     private static final String APP_IDENTIFIER_KEY = "net.hockeyapp.android.appIdentifier";
-    private static final String APP_SECRET_KEY = "net.hockeyapp.android.appSecret";
     private static final Pattern appIdentifierPattern = Pattern.compile(APP_IDENTIFIER_PATTERN, Pattern.CASE_INSENSITIVE);
-
 
     /**
      * Returns the given param URL-encoded.
@@ -63,16 +44,6 @@ public class Util {
             HockeyLog.error("Failed to encode param " + param, e);
             return "";
         }
-    }
-
-    /**
-     * Returns true if value is a valid email.
-     *
-     * @param value a string
-     * @return true if value is a valid email
-     */
-    public static boolean isValidEmail(String value) {
-        return !TextUtils.isEmpty(value) && android.util.Patterns.EMAIL_ADDRESS.matcher(value).matches();
     }
 
     /**
@@ -128,16 +99,6 @@ public class Util {
             throw new IllegalArgumentException("HockeyApp app identifier was not configured correctly in manifest or build configuration.");
         }
         return appIdentifier;
-    }
-
-    /**
-     * Retrieve the HockeyApp appSecret from the Manifest
-     *
-     * @param context usually your Activity
-     * @return the HockeyApp appSecret
-     */
-    public static String getAppSecret(Context context) {
-        return getManifestString(context, APP_SECRET_KEY);
     }
 
     public static String getManifestString(Context context, String key) {

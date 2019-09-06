@@ -45,7 +45,6 @@ public class CheckUpdateTask extends AsyncTask<Void, String, JSONArray> {
     private WeakReference<Context> weakContext = null;
     protected Boolean mandatory = false;
     protected UpdateManagerListener listener;
-    private long usageTime = 0;
 
     public CheckUpdateTask(WeakReference<? extends Context> weakContext, String urlString) {
         this(weakContext, urlString, null);
@@ -209,17 +208,6 @@ public class CheckUpdateTask extends AsyncTask<Void, String, JSONArray> {
             builder.append("&udid=").append(encodeParam(deviceIdentifier));
         }
 
-        SharedPreferences prefs = context.getSharedPreferences("net.hockeyapp.android.login", 0);
-        String auid = prefs.getString("auid", null);
-        if (!TextUtils.isEmpty(auid)) {
-            builder.append("&auid=").append(encodeParam(auid));
-        }
-
-        String iuid = prefs.getString("iuid", null);
-        if(!TextUtils.isEmpty(iuid)) {
-            builder.append("&iuid=").append(encodeParam(iuid));
-        }
-
         builder.append("&os=Android");
         builder.append("&os_version=").append(encodeParam(Constants.ANDROID_VERSION));
         builder.append("&device=").append(encodeParam(Constants.PHONE_MODEL));
@@ -228,7 +216,6 @@ public class CheckUpdateTask extends AsyncTask<Void, String, JSONArray> {
         builder.append("&sdk=").append(encodeParam(Constants.SDK_NAME));
         builder.append("&sdk_version=").append(encodeParam(BuildConfig.VERSION_NAME));
         builder.append("&lang=").append(encodeParam(Locale.getDefault().getLanguage()));
-        builder.append("&usage_time=").append(usageTime);
 
         return builder.toString();
     }
